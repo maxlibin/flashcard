@@ -33,8 +33,6 @@ addCard = (card, state) => {
 };
 
 const decksReducer = (state = initialState, action) => {
-  console.log(state);
-  console.log(action.correct);
   switch(action.type) {
     case DeckConst.CREATE_DECK:
       return {
