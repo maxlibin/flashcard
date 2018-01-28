@@ -27,7 +27,14 @@ export const createDeckQuestion = (inputValue) => (dispatch) => {
 export const startQuiz = (id) => (dispatch) => {
   dispatch({
     type: DeckConst.START_QUIZ,
-    id,
+    id
+  });
+};
+
+export const nextQuiz = (id) => (dispatch) => {
+  dispatch({
+    type: DeckConst.NEXT_QUIZ,
+    id
   });
 };
 
@@ -38,8 +45,9 @@ export const isQuizCorrect = (correct = false) => (dispatch) => {
   });
 };
 
-export const resetQuiz = () => (dispatch) => {
+export const resetQuiz = (id) => (dispatch) => {
   dispatch({
     type: DeckConst.QUIZ_RESET,
+    id,
   });
 };

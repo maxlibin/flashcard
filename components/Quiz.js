@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {PureComponent} from "react";
 import {View, TouchableOpacity, Text} from "react-native";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 
@@ -6,7 +6,7 @@ import PropType from "prop-types";
 import {styles} from "../styles/Stylesheet";
 import {NavigationActions} from "react-navigation";
 
-class Quiz extends Component {
+class Quiz extends PureComponent {
   static navigationOptions = ({navigation}) => {
     return (
       {
@@ -38,13 +38,19 @@ class Quiz extends Component {
   }
 
   componentDidMount() {
-    const {id, name} = this.props.navigation.state.params;
+    const {id, name, question} = this.props.navigation.state.params;
     this.props.navigation.setParams({
       id,
       name,
       handleBackBtn: this.handleBackBtn
     });
-    this.props.startQuiz(id);
+
+    console.log(question)
+    console.log(this.props);
+
+    if (!question) {
+      this.props.startQuiz(id);
+    }
   }
 
   handleBackBtn = () => {
@@ -65,6 +71,8 @@ class Quiz extends Component {
     } else {
       this.props.navigation.navigate("Quiz", {id: id, name: name, question: quizNum + 1})
     }
+
+    this.props.nextQuiz(id);
   };
 
   handleShowAnswer = () => {
@@ -75,6 +83,7 @@ class Quiz extends Component {
 
   render() {
     const {decks, quiz} = this.props;
+
     const name = this.props.navigation.state.params.name;
     const id = this.props.navigation.state.params.id;
     const deck = decks.find((deck) => deck[name] && deck[name].id === id)[name];
@@ -82,6 +91,7 @@ class Quiz extends Component {
     const questionsLength = deck && deck.questions && deck.questions.length || 0;
     const question = (deck.questions && deck.questions[0]) || deck.questions[0];
 
+    console.log(quiz);
     return (
       <View style={styles.container}>
         <View style={styles.deckContainer}>
@@ -138,6 +148,7 @@ class Quiz extends Component {
 Quiz.propTypes = {
   navigation: PropType.object,
   startQuiz: PropType.func,
+  nextQuiz: PropType.func,
   isQuizCorrect: PropType.func,
   quiz: PropType.object,
 };
@@ -145,6 +156,7 @@ Quiz.propTypes = {
 Quiz.defaultProps = {
   navigation: {},
   startQuiz: () => false,
+  nextQuiz: () => false,
   isQuizCorrect: () => false,
   quiz: {},
 };

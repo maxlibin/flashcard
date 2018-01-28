@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import {View, TouchableOpacity, Text} from "react-native";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
+import {NavigationActions} from "react-navigation";
+import {resetQuiz} from "../actions/DeckActions";
 
 import PropType from "prop-types";
 import {styles} from "../styles/Stylesheet";
@@ -9,7 +11,7 @@ import {connect} from "react-redux";
 
 class QuizResult extends Component {
   render() {
-    const {total, name} = this.props.navigation.state.params;
+    const {total, name, id} = this.props.navigation.state.params;
     const {quiz} = this.props;
 
     const {correctNum} = quiz;
@@ -28,11 +30,38 @@ class QuizResult extends Component {
             </View>
             <View style={styles.deckFooter}>
               <TouchableOpacity
-                style={[styles.deckButton, styles.deckButtonHome]}
-                onPress={() => this.props.navigation.navigate("Home")}
+                style={[styles.deckButton, styles.deckButtonBorderRight]}
+                onPress={() => {
+                  const resetAction = NavigationActions.reset({
+                    index: 1,
+                    actions: [
+                      NavigationActions.navigate({routeName: "Deck", params: {name: name, id: id}}),
+                      NavigationActions.navigate({routeName: "Quiz", params: {name: name, id: id}})
+                    ]
+                  });
+                  this.props.navigation.dispatch(resetAction);
+                }}
               >
-                <MaterialCommunityIcons name="home" size={30} color="#fff" />
-                <Text style={[styles.white, styles.deckButtonText]}>Home</Text>
+                <MaterialCommunityIcons name="restart" size={20} color="white" />
+                <Text style={[styles.white, styles.deckButtonText]}>Restart quiz</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.deckButton}
+                onPress={() => {
+                  const resetAction = NavigationActions.reset({
+                    index: 1,
+                    actions: [
+                      NavigationActions.navigate({routeName: "Home"}),
+                      NavigationActions.navigate({routeName: "Deck", params: {name: name, id: id}})
+                    ]
+                  });
+
+                  this.props.navigation.dispatch(resetAction)
+                }}
+              >
+                <MaterialCommunityIcons name="backspace" size={20} color="white" />
+                <Text style={[styles.white, styles.deckButtonText]}>Back to deck</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -48,14 +77,18 @@ QuizResult.propTypes = {
   navigation: PropType.object,
   startQuiz: PropType.func,
   quiz: PropType.object,
+  resetQuiz: PropType.func,
 };
 
 QuizResult.defaultProps = {
   navigation: {},
   startQuiz: () => false,
   quiz: {},
+  resetQuiz: () => false,
 };
 
 export default connect(({decksReducer}) => ({
   quiz: decksReducer.quiz,
-}), {})(QuizResult);
+}), {
+  resetQuiz
+})(QuizResult);

@@ -1,6 +1,6 @@
 import {connect} from "react-redux";
 import Quiz from "../components/Quiz";
-import {startQuiz, isQuizCorrect} from "../actions/DeckActions";
+import {startQuiz, isQuizCorrect, nextQuiz} from "../actions/DeckActions";
 
 const QuizContainer = connect(({decksReducer}) => {
   return {
@@ -9,7 +9,8 @@ const QuizContainer = connect(({decksReducer}) => {
   }
 }, {
   startQuiz,
-  isQuizCorrect,
+  nextQuiz,
+  isQuizCorrect
 })(Quiz);
 
 export default QuizContainer;

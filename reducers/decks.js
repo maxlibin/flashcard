@@ -46,13 +46,30 @@ const decksReducer = (state = initialState, action) => {
         decksList: addCard(action.card, state),
       };
 
+    case DeckConst.QUIZ_RESET:
+      return {
+        ...state,
+        quiz: {
+          ...initialState.quiz
+        }
+      };
+
     case DeckConst.START_QUIZ:
       return {
         ...state,
         quiz: {
-          ...state.quiz,
           id: action.id,
-          quizNum: state.quiz.id !== action.id ? 1 : state.quiz.quizNum + 1,
+          correctNum: 0,
+          quizNum: 1,
+        }
+      };
+
+    case DeckConst.NEXT_QUIZ:
+      return {
+        ...state,
+        quiz: {
+          ...state.quiz,
+          quizNum: state.quiz.id !== action.id ? state.quiz.quizNum : state.quiz.quizNum + 1,
         }
       };
 
@@ -62,14 +79,6 @@ const decksReducer = (state = initialState, action) => {
         quiz: {
           ...state.quiz,
           correctNum: action.correct ? state.quiz.correctNum + 1 : state.quiz.correctNum,
-        }
-      };
-
-    case DeckConst.QUIZ_RESET:
-      return {
-        ...state,
-        quiz: {
-          ...initialState.quiz,
         }
       };
 

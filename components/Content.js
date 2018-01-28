@@ -6,9 +6,6 @@ import {styles} from "../styles/Stylesheet";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 
 class Content extends Component {
-  componentDidMount() {
-    this.props.resetQuiz();
-  }
   render() {
     return (
       <View style={styles.content}>
@@ -28,13 +25,11 @@ class Content extends Component {
 Content.propTypes = {
   decks: PropType.array,
   navigation: PropType.object,
-  resetQuiz: PropType.func,
 };
 
 Content.defaultProps = {
   decks: [],
   navigation: {},
-  resetQuiz: () => false,
 };
 
 export default Content;
