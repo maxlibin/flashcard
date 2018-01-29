@@ -1,18 +1,17 @@
 import DeckConst from "../const/DeckConst";
-import uuidv4 from "uuid/v4";
 
-export const createDeckAction = (inputValue) => (dispatch) => {
+export const createDeckAction = (inputValue, id) => (dispatch) => {
   const deck = {
     [inputValue]: {
       title: inputValue,
-      id: uuidv4(),
+      id,
     },
   };
 
   dispatch({
     type: DeckConst.CREATE_DECK,
     deck,
-  })
+  });
 };
 
 export const createDeckQuestion = (inputValue) => (dispatch) => {

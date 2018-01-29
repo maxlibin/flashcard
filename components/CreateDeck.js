@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {View, TextInput, Text, TouchableOpacity} from "react-native";
 import {Entypo} from "@expo/vector-icons";
+import uuidv4 from "uuid/v4";
 
 import PropType from "prop-types";
 import {styles} from "../styles/Stylesheet";
@@ -13,8 +14,7 @@ class CreateDeck extends Component {
         <TouchableOpacity
           style={styles.createDeckBtn}
           onPress={() => {
-            navigation.state.params.handleOnSubmit();
-            navigation.goBack();
+            navigation.state.params.handleOnSubmit(navigation);
           }}
         >
           <Text style={styles.createDeckBtnText}>
@@ -48,8 +48,10 @@ class CreateDeck extends Component {
     })
   };
 
-  handleOnSubmit = () => {
+  handleOnSubmit = (navigation) => {
     const {state} = this.props.navigation;
+    const navigationId = uuidv4();
+
     if (state.params && state.params.addCard) {
       const inputValue = {
         question: this.state.question,
@@ -59,7 +61,11 @@ class CreateDeck extends Component {
       this.props.createDeckQuestion(inputValue)
     } else {
       const inputValue = this.state.deck;
-      this.props.createDeckAction(inputValue)
+      this.props.createDeckAction(inputValue, navigationId);
+
+      setTimeout(() => {
+        navigation.navigate("Deck", {name: inputValue, id: navigationId})
+      });
     }
   };
 

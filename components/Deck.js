@@ -46,7 +46,7 @@ class Deck extends PureComponent {
 
               <TouchableOpacity
                 style={styles.deckButton}
-                onPress={() => this.props.navigation.navigate("Quiz", {id: id, name: name })}
+                onPress={() => questionsLength > 0 && this.props.navigation.navigate("Quiz", {id: id, name: name })}
               >
                 <MaterialCommunityIcons name="clock-start" size={20} color="white" />
                 <Text style={[styles.white, styles.deckButtonText]}>Start quiz</Text>

@@ -45,9 +45,6 @@ class Quiz extends PureComponent {
       handleBackBtn: this.handleBackBtn
     });
 
-    console.log(question)
-    console.log(this.props);
-
     if (!question) {
       this.props.startQuiz(id);
     }
