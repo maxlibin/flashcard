@@ -5,6 +5,8 @@ import CreateDeck from "../containers/CreateDeckContainer";
 import {StackNavigator} from "react-navigation";
 import QuizContainer from "../containers/QuizContainer";
 import QuizResult from "../components/QuizResult";
+import {connect, Connect} from "react-redux";
+import {setLocalNotification} from "../utils/helper";
 
 const headerStyle = {
   headerTintColor: "#fff",
@@ -80,6 +82,10 @@ const StackView = StackNavigator({
 });
 
 class Main extends Component {
+  componentDidMount() {
+    setLocalNotification();
+  }
+
   render() {
     return (
       <StackView />
@@ -87,4 +93,6 @@ class Main extends Component {
   }
 };
 
-export default Main;
+export default connect(({decksReducer}) => ({
+  hasDoneAQuiz: decksReducer.hasDoneAQuiz,
+}), {})(Main);

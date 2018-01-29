@@ -5,6 +5,7 @@ import {MaterialCommunityIcons} from "@expo/vector-icons";
 import PropType from "prop-types";
 import {styles} from "../styles/Stylesheet";
 import {NavigationActions} from "react-navigation";
+import {clearLocalNotifications, setLocalNotification} from "../utils/helper";
 
 class Quiz extends PureComponent {
   static navigationOptions = ({navigation}) => {
@@ -38,6 +39,8 @@ class Quiz extends PureComponent {
   }
 
   componentDidMount() {
+    clearLocalNotifications().then(() => setLocalNotification);
+
     const {id, name, question} = this.props.navigation.state.params;
     this.props.navigation.setParams({
       id,
@@ -88,7 +91,6 @@ class Quiz extends PureComponent {
     const questionsLength = deck && deck.questions && deck.questions.length || 0;
     const question = (deck.questions && deck.questions[0]) || deck.questions[0];
 
-    console.log(quiz);
     return (
       <View style={styles.container}>
         <View style={styles.deckContainer}>
