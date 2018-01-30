@@ -89,7 +89,7 @@ class Quiz extends PureComponent {
     const deck = decks.find((deck) => deck[name] && deck[name].id === id)[name];
 
     const questionsLength = deck && deck.questions && deck.questions.length || 0;
-    const question = (deck.questions && deck.questions[0]) || deck.questions[0];
+    const question = (deck.questions && deck.questions[quiz.quizNum - 1]) || deck.questions[0];
 
     return (
       <View style={styles.container}>

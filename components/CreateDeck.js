@@ -5,7 +5,6 @@ import uuidv4 from "uuid/v4";
 
 import PropType from "prop-types";
 import {styles} from "../styles/Stylesheet";
-import {createDeckQuestion} from "../actions/DeckActions";
 
 class CreateDeck extends Component {
   static navigationOptions = ({navigation}) => (
@@ -58,7 +57,8 @@ class CreateDeck extends Component {
         answer: this.state.answer,
         id: state.params.id,
       };
-      this.props.createDeckQuestion(inputValue)
+      this.props.createDeckQuestion(inputValue);
+      this.props.navigation.goBack();
     } else {
       const inputValue = this.state.deck;
       this.props.createDeckAction(inputValue, navigationId);
